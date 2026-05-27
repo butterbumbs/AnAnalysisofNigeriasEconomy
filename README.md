@@ -9,9 +9,9 @@ This report examines Nigeria's economic development across four dimensions: GDP 
 ## Folders/Files
 
 | Folder / File | Description |
-|-------------------------|----------------------------------------------|
+|--------------------------|----------------------------------------------|
 | `AnAnalysisofNigeriasEconomy.qmd` | Quarto report |
-| `AnAnalysisofNigeriasEconomy.html` | Final Report |
+| `AnAnalysisofNigeriasEconomy.html` | Final Report (**Download required to view**) |
 | Capital Accumulation | Folder for Capital Accumulation analysis |
 | GDP Per Capita | Folder for GDP Per Capita analysis |
 
