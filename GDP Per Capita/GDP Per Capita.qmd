@@ -1,0 +1,118 @@
+---
+title: "ECON355W"
+format: html
+embed-resources: true
+---
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, output=FALSE}
+
+library(tidyverse)
+library(modelsummary)
+library(knitr)
+library(lubridate)
+library(fixest)
+library(broom)
+library(ggrepel)
+
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, output=FALSE}
+gdpPPP$`GDP per capita, PPP (constant 2021 international $)` <- 
+  as.numeric(
+    na_if(gdpPPP$`GDP per capita, PPP (constant 2021 international $)`, "..")
+  )
+
+gdpMaddison <- read_csv(
+    "GDP Per Capita/gdp-per-capita-maddison-project-database.csv") #with PPP
+
+
+nigeria_data <- gdpMaddison %>%
+  filter(`Country` == "Nigeria")
+
+
+
+saveRDS(nigeria_data, "nigeria_data.rds")
+
+saveRDS(gdpMaddison, "gdpMaddison.rds")
+
+
+
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+ggplot(
+    nigeria_data, aes(x = Year, y = `GDP per capita_PPP`)) +
+        geom_line(linewidth = 1.1, color='blue') +
+        geom_point(stat = "summary", color = "black") +
+        geom_point(
+            data = subset(nigeria_data, Year %in% c(1968, 1977, 2015)),
+            aes(x = Year, y = `GDP per capita_PPP`),
+            color = "red",size = 3) +
+  scale_x_continuous(
+    expand = expansion(mult = c(0, 0.05)),
+    breaks = scales::pretty_breaks(n = 15) 
+  ) +
+  scale_y_continuous(
+    labels = scales::comma,                   
+    breaks = scales::pretty_breaks(n = 20)    
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_line(color = "gray90"),
+    panel.grid.major.y = element_line(color = "gray85"),
+    legend.position = "none",
+    plot.title = element_text(face = "bold", size = 15),
+    plot.subtitle = element_text(size = 12, color = "gray40"),
+    plot.caption = element_text(size = 10, color = "gray50")
+  ) +
+  labs(
+    title = "Nigeria's GDP per capita, 2011 international US$",
+    subtitle = "Used Maddison Project Database (2023). Constant 2011 international dollars (PPP-adjusted).",
+    x = "Year",
+    y = "GDP per capita",
+    caption = "Source: Maddison Project Database (2023) | ourworldindata.org"
+  )
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+ggplot(
+    gdpMaddison, aes(x = Year, y = `GDP per capita_PPP`,color = `Country`)) +
+        geom_line(linewidth = 1.1) +
+  geom_text_repel(
+    data = gdpMaddison %>% group_by(`Country`) %>% filter(Year == max(Year)),
+    aes(label = `Country`),
+    hjust = 0,
+    direction = "y",
+    nudge_x = 2,
+    size = 5,
+    show.legend = FALSE
+  ) +
+  scale_x_continuous(
+    expand = expansion(mult = c(0, 0.05)),
+    breaks = scales::pretty_breaks(n = 15) 
+  ) +
+  scale_y_continuous(
+    labels = scales::comma,                   
+    breaks = scales::pretty_breaks(n = 20)    
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_line(color = "gray90"),
+    panel.grid.major.y = element_line(color = "gray85"),
+    legend.position = "none",
+    plot.title = element_text(face = "bold", size = 15),
+    plot.subtitle = element_text(size = 12, color = "gray40"),
+    plot.caption = element_text(size = 10, color = "gray50")
+  ) +
+  labs(
+    title = "GDP per capita, 2011 international US$",
+    subtitle = "Used Maddison Project Database (2023). Constant 2011 international dollars (PPP-adjusted).",
+    x = "Year",
+    y = "GDP per capita",
+    caption = "Source: Maddison Project Database (2023) | ourworldindata.org"
+  )
+```

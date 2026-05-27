@@ -1,0 +1,112 @@
+---
+title: "Capital Accumulation"
+format: html
+embed-resources: true
+---
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, output=FALSE}
+library(tidyverse)
+library(modelsummary)
+library(knitr)
+library(lubridate)
+library(fixest)
+library(broom)
+library(ggrepel)
+library(scales)
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, output=FALSE}
+capdt <- read_csv(
+    "Capital Accumulation/NigeriaCapitalFormation.csv") #world bank #without PPP
+capdt
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+ggplot(
+    capdt, aes(x = year, y = GFCFcurrentUS)) +
+        geom_line(linewidth = 1.1, color='orange') +
+        geom_point(stat = "summary", color = "black") +
+  scale_x_continuous(
+    expand = expansion(mult = c(0, 0.1)),
+    breaks = scales::pretty_breaks(n = 10) 
+  ) +
+  scale_y_continuous(
+  labels = label_number(accuracy = 0.1, scale_cut = cut_short_scale()),
+  breaks = scales::pretty_breaks(n = 10)
+)+
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_line(color = "gray90"),
+    panel.grid.major.y = element_line(color = "gray85"),
+    legend.position = "none",
+    plot.title = element_text(face = "bold", size = 15),
+    plot.subtitle = element_text(size = 12, color = "gray40"),
+    plot.caption = element_text(size = 10, color = "gray50")
+  ) +
+  labs(
+    title = "Nigeria's Gross Fixed Capital Formation (Current US$)",
+    subtitle = "Gross Fixed Capital Formation (Current US$) (WEO).",
+    x = "Year",
+    y = "Gross Fixed Capital Formation",
+    caption = "Source: African Development Bank Group (2023) | dataportal.afdb.org"
+  )
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, output=FALSE}
+library(WDI)
+
+# world aggregate
+df_world <- WDI(
+  country = "1W",
+  indicator = "NE.GDI.TOTL.ZS",
+  start = 2013, 
+  end = 2024
+) %>%
+  rename(year = year, cap_pct_gdp = NE.GDI.TOTL.ZS)
+
+df_world
+
+GFCFperGDP_combined <- left_join(df_world, capdt, by="year")
+
+GFCFperGDP_combined
+
+saveRDS(GFCFperGDP_combined, "GFCFperGDP_combined.rds")
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+ggplot(
+  GFCFperGDP_combined, aes(x = year)) +
+  geom_line(aes(y = cap_pct_gdp, color = "World"), linewidth = 1.1) +
+  geom_point(aes(y = cap_pct_gdp), size = 2.5, color = "black") +
+  geom_line(aes(y = GFCFperGDP, color = "Nigeria"), linewidth = 1.1) +
+  geom_point(aes(y = GFCFperGDP),color = "black", size = 2.5) +
+  scale_x_continuous(
+    expand = expansion(mult = c(0, 0.1)),
+    breaks = scales::pretty_breaks(n = 10) 
+  ) +
+  scale_y_continuous(
+    labels = scales::comma,                   
+    breaks = scales::pretty_breaks(n = 20)    
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_line(color = "gray90"),
+    panel.grid.major.y = element_line(color = "gray85"),
+    plot.title = element_text(face = "bold", size = 15),
+    plot.subtitle = element_text(size = 12, color = "gray40"),
+    plot.caption = element_text(size = 10, color = "gray50")
+  ) +
+  labs(
+    title = "Nigeria Vs. World Gross Fixed Capital Formation (% GDP)",
+    subtitle = "Nigeria's and the World's Gross Fixed Capital Formation as a Percantage of GDP (WEO).",
+    x = "Year",
+    y = "% of GDP",
+    caption = "Source: African Development Bank Group (2023) & World Bank Group | dataportal.afdb.org & data.worldbank.org"
+  )
+
+```
