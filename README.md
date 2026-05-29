@@ -2,7 +2,7 @@
 
 ## Overview
 
-This report examines Nigeria's economic development across four dimensions: GDP per capita, physical capital accumulation, human capital, and financial inclusion. Using data from the Maddison Project Database, the African Development Bank, the World Bank, and EFInA, the analysis argues that Nigeria's growth potential is constrained not by resource scarcity but by institutional failures in governance, education, and equitable policy.
+This report examines Nigeria's economic development across four lenses: GDP per capita, physical capital accumulation, human capital, and financial inclusion. Using data from the Maddison Project Database, the African Development Bank, the World Bank, and EFInA, the analysis argues that Nigeria's growth potential is constrained not by resource scarcity but by institutional failures in governance, education, and equitable policy.
 
 ------------------------------------------------------------------------
 
@@ -21,17 +21,11 @@ This report examines Nigeria's economic development across four dimensions: GDP 
 
 | Dataset | Source | Coverage |
 |------------------------|------------------------|------------------------|
-| GDP per capita (PPP-adjusted) | [Maddison Project Database (2023)](https://www.rug.nl/ggdc/historicaldevelopment/maddison/) | Nigeria, 1950–2024 |
-| Gross Fixed Capital Formation | [African Development Bank Group](https://dataportal.afdb.org) | Nigeria, 2013–2023 |
-| GFCF as % of GDP (world) | [World Bank](https://data.worldbank.org) | World average, 2013–2023 |
-| Human Capital Index | [World Bank Group (2023)](https://www.worldbank.org/en/publication/human-capital) | Nigeria, 2024 |
-| Financial inclusion rates | [EFInA Access to Financial Services Survey (2024)](https://efina.org.ng) | Nigeria, 2020–2023 |
-
-------------------------------------------------------------------------
-
-## Methodological Information
-
-**Software:** R, Quarto **Key R packages:** `tidyverse`, `ggplot2`, `fixest`, `broom`, `modelsummary`, `lubridate`, `ggrepel`, `scales`
+| GDP per capita (PPP-adjusted) | [Maddison Project Database (2023)](https://www.rug.nl/ggdc/historicaldevelopment/maddison/) | 1950–2024 |
+| Gross Fixed Capital Formation | [African Development Bank Group](https://dataportal.afdb.org) | 2013–2023 |
+| GFCF as % of GDP (world) | [World Bank](https://data.worldbank.org) | 2013–2023 |
+| Human Capital Index | [World Bank Group (2023)](https://www.worldbank.org/en/publication/human-capital) | 2024 |
+| Financial inclusion rates | [EFInA Access to Financial Services Survey (2024)](https://efina.org.ng) | 2020–2023 |
 
 ------------------------------------------------------------------------
 
